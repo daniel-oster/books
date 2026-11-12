@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>We Must Survive · project map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #0d0d13; --panel: #14141c; --card: #1a1a24; --card-2: #1f1f2b;
+  --line: #2a2a38; --line-2: #3a3a4c; --text: #ecebf3; --muted: #9a99ab; --dim: #6c6b7d;
+  --green: #7fe0a6; --green-bg: rgba(127,224,166,.12);
+  --violet: #b9a8ff; --violet-bg: rgba(185,168,255,.14);
+  --amber: #f3c56b; --amber-bg: rgba(243,197,107,.13);
+  --red: #f08c8c; --red-bg: rgba(240,140,140,.12);
+  --sans: Inter, -apple-system, "Segoe UI", sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 var(--sans);
+  background-image: radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px); background-size: 22px 22px; }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 36px 40px 64px; }
+.glow { position: absolute; left: 50%; top: 40px; width: 900px; height: 360px; transform: translateX(-40%);
+  background: radial-gradient(ellipse at center, rgba(150,130,255,.10), transparent 65%); pointer-events: none; }
+
+/* header */
+header { display: flex; align-items: baseline; gap: 22px; flex-wrap: wrap; position: relative; }
+header h1 { margin: 0; font-size: 30px; font-weight: 700; letter-spacing: -.02em; }
+header .meta { color: var(--muted); font-size: 15px; }
+header .meta b { color: var(--text); font-weight: 600; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+.red { color: var(--red); } .red .dot, .dot.red { background: var(--red); }
+
+/* timeline */
+.timeline { position: relative; margin: 64px 10px 0; height: 120px; }
+.track { position: absolute; top: 24px; left: 50px; right: 50px; height: 6px; }
+.track .done { position: absolute; left: 0; top: 0; height: 6px; border-radius: 3px;
+  background: linear-gradient(90deg, var(--green), var(--green) 60%, var(--violet)); }
+.track .todo { position: absolute; top: 2px; height: 2px; right: 0;
+  background-image: radial-gradient(circle, var(--line-2) 1.2px, transparent 1.4px); background-size: 10px 2px; }
+.ms { position: absolute; top: 0; width: 220px; transform: translateX(-50%); text-align: center; }
+.ms .node { width: 54px; height: 54px; margin: 0 auto; border-radius: 50%; display: grid; place-items: center;
+  border: 3px solid var(--line-2); background: var(--card); position: relative; }
+.ms.done .node { background: var(--green); border-color: rgba(127,224,166,.35); box-shadow: 0 0 0 4px rgba(127,224,166,.12); }
+.ms.done .node::after { content: ""; width: 14px; height: 8px; border: 3px solid #0d2a1b; border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px,-2px); }
+.ms.now .node { background: #fff; border: 8px solid #1b1a2b; box-shadow: 0 0 0 3px var(--violet), 0 0 40px 10px rgba(185,168,255,.35); }
+.ms.now .node::after { content: ""; width: 12px; height: 12px; border-radius: 50%; background: #1b1a2b; }
+.ms.next .node { border-color: var(--violet); border-width: 2px; }
+.ms.next .node::after { content: ""; width: 12px; height: 12px; border-radius: 50%; background: var(--violet); opacity: .8; }
+.ms h3 { margin: 12px 0 0; font-size: 17px; font-weight: 600; }
+.ms .st { font-size: 13.5px; color: var(--dim); }
+.ms.done .st { color: var(--green); } .ms.now .st { color: var(--violet); } .ms.next .st { color: var(--muted); }
+.here { position: absolute; top: -46px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+  background: var(--violet); color: #1b1630; font-weight: 600; font-size: 13px; padding: 5px 12px; border-radius: 10px; }
+.here::after { content: ""; position: absolute; left: 50%; bottom: -5px; width: 10px; height: 10px; background: var(--violet); transform: translateX(-50%) rotate(45deg); }
+
+.left { display: flex; justify-content: center; align-items: center; gap: 12px; margin: 26px 0 34px; flex-wrap: wrap; }
+.left .n { font-size: 28px; font-weight: 700; color: var(--violet); }
+.left .lbl { font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-right: 8px; }
+.chip { display: inline-flex; align-items: center; font-size: 13px; font-weight: 500; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--muted); }
+.chip.red { border-color: rgba(240,140,140,.45); background: var(--red-bg); color: #f6c0c0; }
+.chip.amber { border-color: rgba(243,197,107,.45); background: var(--amber-bg); color: #f6dca5; }
+.chip.amber .dot { background: var(--amber); } .chip .dot { background: var(--dim); }
+
+/* grid */
+.grid { display: grid; grid-template-columns: 1fr 340px; gap: 18px; align-items: start; }
+.panel { background: rgba(20,20,28,.85); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+.kick { font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; display: flex; justify-content: space-between; }
+.kick b { color: var(--green); font-weight: 500; font-family: var(--sans); letter-spacing: 0; text-transform: none; font-size: 13px; }
+.kick span.aside { letter-spacing: 0; text-transform: none; font-family: var(--sans); font-size: 13px; }
+.parts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.part { border-radius: 12px; padding: 14px 14px 12px; background: var(--card); border: 1px solid var(--line); min-height: 138px; display: flex; flex-direction: column; }
+.part h4 { margin: 0 0 6px; font-size: 15.5px; font-weight: 600; }
+.part .roman { font-family: var(--mono); color: var(--dim); font-size: 12px; margin-right: 6px; font-weight: 400; }
+.part .foot { margin-top: auto; color: var(--muted); font-size: 12.5px; }
+.part ul { margin: 6px 0 8px; padding: 0; list-style: none; color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+.part ul li::before { content: "·"; color: var(--dim); margin-right: 6px; }
+.tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 9px; border-radius: 6px; }
+.tag.spec { background: var(--violet-bg); color: var(--violet); }
+.tag.done { background: var(--green-bg); color: var(--green); }
+.tag.call { background: var(--red-bg); color: var(--red); }
+.tag.new { background: var(--amber-bg); color: var(--amber); }
+.tag.none { background: rgba(255,255,255,.06); color: var(--muted); }
+.part.focus { border-color: rgba(185,168,255,.55); box-shadow: inset 0 0 0 1px rgba(185,168,255,.25); }
+.part.call { border-color: rgba(240,140,140,.5);
+  background: repeating-linear-gradient(135deg, rgba(240,140,140,.06) 0 8px, transparent 8px 16px), var(--card); }
+.part.call .why { color: var(--red); font-size: 12.5px; margin-top: auto; }
+.part.ghost { background: transparent; border: 1px dashed var(--line-2); }
+.part.ghost h4 { color: #cfcedc; }
+
+.side { display: flex; flex-direction: column; gap: 14px; }
+.side .panel h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.side .panel p { margin: 6px 0 0; color: var(--muted); font-size: 13.5px; }
+.callbox { border-color: rgba(240,140,140,.45); background: linear-gradient(180deg, rgba(240,140,140,.10), rgba(240,140,140,.04)); }
+.callbox .kick { color: var(--red); }
+.callbox p b { color: var(--text); }
+.calls { margin: 0; padding: 0; list-style: none; }
+.calls li { padding: 10px 0; border-top: 1px solid rgba(240,140,140,.18); }
+.calls li:first-child { border-top: 0; padding-top: 0; }
+.calls h3 { margin: 0; font-size: 15px; font-weight: 600; }
+.calls .def { margin-top: 3px; font-size: 12.5px; color: var(--muted); }
+.calls .def b { color: #e6e4f0; font-weight: 600; }
+.changes { margin: 0; padding: 0; list-style: none; }
+.changes li { display: flex; gap: 10px; padding: 4px 0; font-size: 13.5px; color: var(--muted); }
+.changes li b { color: var(--text); font-weight: 600; }
+.changes .dot { margin-top: 7px; flex: none; }
+.g { background: var(--green); } .v { background: var(--violet); } .a { background: var(--amber); } .r { background: var(--red); }
+.ring { display: inline-block; width: 13px; height: 13px; border: 2px solid var(--violet); border-radius: 50%; margin-right: 8px; vertical-align: -2px; }
+
+/* analysis */
+.section-title { margin: 44px 0 14px; display: flex; align-items: baseline; gap: 14px; }
+.section-title h2 { margin: 0; font-size: 22px; font-weight: 650; letter-spacing: -.01em; }
+.section-title span { color: var(--muted); }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.three { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+.depwrap { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 4px; }
+.depwrap .issues { display: grid; grid-template-columns: 1fr 1fr; column-gap: 28px; }
+.depwrap .issues { margin-top: 0; }
+.concepts { display: flex; flex-direction: column; gap: 10px; }
+.cgroup h5 { margin: 0 0 6px; font-size: 12px; font-family: var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.cgroup.core h5 { color: var(--violet); } .cgroup.imp h5 { color: var(--amber); } .cgroup.per h5 { color: var(--dim); }
+.cl { display: flex; flex-wrap: wrap; gap: 6px; }
+.c { font-size: 13px; padding: 4px 10px; border-radius: 8px; background: var(--card); border: 1px solid var(--line); cursor: default; }
+.core .c { border-color: rgba(185,168,255,.35); }
+.c[title] { text-decoration: underline dotted var(--dim); text-underline-offset: 3px; }
+.mermaid-box { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; overflow-x: auto; }
+.mermaid-box svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+.issues { margin: 12px 0 0; padding: 0; list-style: none; counter-reset: i; }
+.issues li { counter-increment: i; position: relative; padding: 8px 0 8px 34px; border-top: 1px solid var(--line); font-size: 13.5px; color: var(--muted); }
+.issues li::before { content: counter(i); position: absolute; left: 0; top: 8px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--red-bg); color: var(--red); font-size: 12px; font-weight: 600; }
+.issues li b { color: var(--text); font-weight: 600; }
+.ideas { margin: 0; padding: 0; list-style: none; counter-reset: k; }
+.ideas li { counter-increment: k; padding: 9px 0 9px 32px; position: relative; border-top: 1px solid var(--line); font-size: 14px; }
+.ideas li:first-child { border-top: 0; }
+.ideas li::before { content: counter(k); position: absolute; left: 0; top: 9px; font-family: var(--mono); color: var(--violet); }
+.gaps { width: 100%; border-collapse: collapse; font-size: 13px; }
+.gaps td { padding: 7px 6px; border-top: 1px solid var(--line); vertical-align: top; color: var(--muted); }
+.gaps td:first-child { width: 92px; }
+.gaps td b { color: var(--text); font-weight: 600; }
+.scope p { margin: 0 0 10px; color: var(--muted); font-size: 13.5px; }
+.scope p b { color: var(--text); }
+.reader { border-left: 3px solid var(--violet); padding: 2px 0 2px 12px; margin: 10px 0 12px; font-size: 14.5px; }
+
+/* phase 2 */
+.ptitle { margin: 26px 0 10px; font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--violet); }
+details.ch { background: rgba(20,20,28,.85); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 10px; }
+details.ch[open] { border-color: rgba(185,168,255,.45); }
+details.ch summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 44px 1fr auto; gap: 14px; align-items: baseline; padding: 14px 18px; }
+details.ch summary::-webkit-details-marker { display: none; }
+.chn { font-family: var(--mono); color: var(--dim); font-size: 13px; }
+.cht { font-size: 16px; font-weight: 600; }
+.cht small { display: block; font-weight: 400; color: var(--muted); font-size: 13px; margin-top: 2px; }
+.chmeta { display: flex; gap: 8px; align-items: center; color: var(--dim); font-size: 12.5px; white-space: nowrap; }
+.chbody { padding: 0 18px 18px 76px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px 28px; }
+.chbody h6 { margin: 0 0 6px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.chbody p, .chbody li { font-size: 13.5px; color: #d6d5e2; margin: 0; }
+.chbody ul, .chbody ol { margin: 0; padding-left: 18px; }
+.chbody li { margin: 3px 0; }
+.chbody li b { color: var(--violet); font-weight: 600; }
+.chbody .hook { border-left: 3px solid var(--amber); padding-left: 12px; font-style: italic; color: #e9e3cf; }
+.chbody .eq { border-left: 3px solid var(--violet); padding-left: 12px; }
+.chbody .full { grid-column: 1 / -1; }
+.prog-row { display: grid; grid-template-columns: 110px repeat(6, 1fr); gap: 4px; align-items: center; margin: 4px 0; font-size: 12.5px; color: var(--muted); }
+.prog-row .cell { height: 18px; border-radius: 4px; background: rgba(255,255,255,.04); }
+.prog-row .cell.on { background: linear-gradient(90deg, rgba(185,168,255,.55), rgba(185,168,255,.35)); }
+.prog-head { color: var(--dim); font-size: 11px; font-family: var(--mono); }
+.backm { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.backm div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.backm h4 { margin: 0 0 4px; font-size: 14.5px; font-weight: 600; }
+.backm p { margin: 0; font-size: 13px; color: var(--muted); }
+footer { margin-top: 40px; color: var(--dim); font-size: 12.5px; }
+footer code { font-family: var(--mono); color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="wrap">
+
+<header>
+  <h1><a href="./" style="color:inherit;text-decoration:none">We Must Survive</a></h1>
+  <span class="meta">Project map · <a href="./" style="color:var(--violet)">back to the book</a></span>
+  <span class="meta">Updated <b>7 Oct 2026</b> · first complete draft</span>
+  <span class="meta"><b>24</b> of 24 chapters written</span>
+  <span class="meta red"><span class="dot"></span>1 needs your call</span>
+</header>
+
+<div class="timeline" id="timeline"></div>
+
+<div class="left">
+  <span class="n">24</span><span class="lbl">chapters done</span>
+  <span class="chip"><span class="dot"></span>All 23 exercises in Appendix A</span>
+  <span class="chip"><span class="dot"></span>43 consistency fixes</span>
+  <span class="chip amber"><span class="dot"></span>Verification register to work through</span>
+</div>
+
+<div class="grid">
+  <section class="panel">
+    <p class="kick">Parts <span class="aside"><b>24</b> of 24 chapters written · first complete draft</span></p>
+    <div class="parts" id="parts"></div>
+  </section>
+
+  <aside class="side">
+    <div class="panel">
+      <p class="kick">Next step</p>
+      <h2>Review the whole draft</h2>
+      <p>All 24 chapters, part introductions, epilogue, front matter, appendices A–D, reading list and a 167-term glossary are written. Facts were checked per chapter. The draft has had a readability and red-thread pass and a second pass after the editorial review (lighter frame, capability as the aim); open items are in the verification register.</p>
+    </div>
+    <div class="panel callbox">
+      <p class="kick">Needs your call</p>
+      <ul class="calls" id="calls"></ul>
+    </div>
+    <div class="panel">
+      <p class="kick" style="justify-content:flex-start"><span><span class="ring"></span>Changed today</span></p>
+      <ul class="changes" id="changes"></ul>
+    </div>
+  </aside>
+</div>
+
+<div class="section-title"><h2>Phase 2 · Chapter plan</h2><span>approved 7 Oct · 24 chapters in six parts · about 105,000 words plus appendices · click a chapter to open it</span></div>
+<div class="two">
+  <section class="panel scope"><p class="kick">Organising pattern</p><p id="pattern"></p><p class="kick" style="margin-top:14px">Exercises</p><p id="exnote"></p></section>
+  <section class="panel"><p class="kick">Bloom progression across the book</p><div id="prog"></div></section>
+</div>
+<div id="chplan"></div>
+<section class="panel" style="margin-top:18px"><p class="kick">Back matter</p><div class="backm" id="backm"></div></section>
+
+<div class="section-title"><h2>Phase 1 · Analysis</h2><span>approved with defaults, 7 Oct</span></div>
+
+<div class="two">
+  <section class="panel scope">
+    <p class="kick">Reader and scope</p>
+    <div class="reader">The person accountable for keeping an organisation's important services running through severe disruption: a head of operations, a system or service owner, a preparedness or continuity coordinator, an IT manager, an architect in that role.</div>
+    <p><b>Knows</b> their own organisation and roughly what outsourcing and cloud mean. <b>Doesn't know</b> resilience engineering. <b>Doesn't need</b> to code.</p>
+    <p><b>In:</b> deciding what must keep working, finding what it really stands on, building fallbacks before the day, leading, communicating and staffing through weeks of disruption, exercising and learning. All-hazards; IT-heavy but also power, telecom, suppliers and people; Swedish preparedness and total defence as the frame, international cases.</p>
+    <p><b>Out:</b> how to build the technical solutions (one engineering appendix), detailed security controls and threat intelligence, ISO 22301 certification, legal advice (a dated regulatory appendix).</p>
+    <p><b>Follows from one reader:</b> no decision-maker box (the reader is the decision-maker); engineering pointers go to one appendix (today's A–D merged); technical terms in the cases (control plane, DNS, domain controller) explained in plain words where used.</p>
+  </section>
+
+  <section class="panel">
+    <p class="kick">Key concepts <span class="aside">hover for the short version</span></p>
+    <div class="concepts" id="concepts"></div>
+  </section>
+</div>
+
+  <section class="panel">
+    <p class="kick">Dependency map</p>
+    <div class="depwrap"><div><div class="mermaid-box"><pre class="mermaid" id="depmap">flowchart LR
+  S[Survivability] --> MT[Mission thread]
+  MT --> IT[Impact tolerance]
+  IT --> SB[Scenario baseline]
+  MT --> D[Dependencies<br>5 layers]
+  SB --> P[Eight prompts]
+  D --> P
+  P --> EC[Effect classes]
+  D --> CC[Common-cause]
+  EC --> FB[Fallbacks]
+  CC --> FB
+  FB --> DI[Designed in]
+  D --> R[Recovery]
+  FB --> OPS[Command, comms,<br>people]
+  OPS --> HB[Handbook]
+  SB --> EX[Exercises]
+  FB --> EX
+  EX --> L[Learning<br>and drift]</pre></div>
+    </div>
+    <ul class="issues">
+      <li><b>Ch. 2, the model</b>, needs mission threads, dependencies and scenarios, which arrive in ch. 4–6. Short map with British Library only, or move it to the end of Part II.</li>
+      <li><b>Ch. 3</b> asks "does the fallback share fate with the primary?" before ch. 9 explains common-cause.</li>
+      <li><b>Ch. 4 and 5:</b> scenarios come before "what must keep working". The map, SEI and BIA all say mission first.</li>
+      <li><b>Ch. 6 and 7:</b> prompts (per dependency) and effect classes (grouping the answers) need an explicit bridge.</li>
+    </ul>
+    </div>
+  </section>
+
+<div class="three">
+  <section class="panel">
+    <p class="kick">Big ideas</p>
+    <ul class="ideas">
+      <li>Disruption will come. The questions are when, for how long and what keeps working, so plan by effect and duration, not by cause.</li>
+      <li>The outcome is decided by the shape of your dependencies and whether they fail together. It shows most clearly in contrasts inside one incident: Umeå and Primula, Coop's co-ops, the British Library's payroll.</li>
+      <li>What you need in the crisis must exist, and have been used, before it. Lead times are months.</li>
+      <li>Recovery is a programme of weeks to months, and your provider's recovery is not yours.</li>
+      <li>Survivability is lost one reasonable decision at a time, and kept by practice.</li>
+    </ul>
+  </section>
+
+  <section class="panel">
+    <p class="kick">Gaps and conflicts</p>
+    <table class="gaps" id="gaps"></table>
+  </section>
+</div>
+
+<footer>Working page, linked from the book's menu until the book is finished. Data lives in the <code>PLAN</code> and <code>CHAPTER_PLAN</code> objects at the bottom of the file.</footer>
+</div>
+
+<script>
+const PLAN = {
+  milestones: [
+    { title: "Skeleton", status: "Done · 7 Oct", cls: "done" },
+    { title: "Analysis", status: "Done · 7 Oct", cls: "done" },
+    { title: "Chapter plan", status: "Done · 7 Oct", cls: "done" },
+    { title: "Writing", status: "Done · first draft", cls: "done" },
+    { title: "Review and print", status: "Now", cls: "now" },
+  ],
+  parts: [
+    { n: "0", t: "Meet Regionverket", ch: ["The running example ✓", "How the exercises work ✓"], tag: ["new", "Drafted"], foot: "Ch. 0 · in review" },
+    { n: "I", t: "The frame", ch: ["What if we are hit tomorrow? ✓", "Can we see the whole picture? ✓", "What must exist before the crisis? ✓"], tag: ["new", "Drafted"], foot: "Ch. 1–3 · in review" },
+    { n: "II", t: "Know, through scenarios", ch: ["What must keep working? ✓", "What should we plan for? ✓", "Who do we rely on? ✓", "Preparing for the unpredictable ✓", "How the pieces fit together ✓"], tag: ["new", "Drafted"], foot: "Ch. 4–8 · in review" },
+    { n: "III", t: "Organisational patterns", ch: ["What keeps running ✓", "Why spares fail together ✓", "Working by hand ✓", "Forbidden systems ✓", "Starting again ✓"], tag: ["new", "Drafted"], foot: "Ch. 9–13 · in review" },
+    { n: "IV", t: "People, business, communication", ch: ["Reaching people ✓", "Who decides at 03:00? ✓", "Week three ✓", "Who pays? ✓", "No screen ✓"], tag: ["new", "Drafted"], foot: "Ch. 14–18 · in review" },
+    { n: "V", t: "Operate, exercise and learn", ch: ["Would we notice? ✓", "Do our fallbacks work? ✓", "Good decisions, disaster ✓"], tag: ["new", "Drafted"], foot: "Ch. 19–21 · in review" },
+    { n: "VI", t: "Society and total defence", ch: ["What our IT stands on ✓", "Three months or a weekend? ✓"], tag: ["new", "Drafted"], foot: "Ch. 22–23 · in review" },
+    { n: "App", t: "Tabletop exercises", ch: ["One per chapter ✓", "Injects, facilitator notes ✓", "Hidden answers ✓"], tag: ["new", "Drafted"], foot: "Appendix A · in review" },
+    { n: "App", t: "B–D and back matter", ch: ["Methods, regulation ✓", "For engineers (old A–D) ✓", "Sources, reading, glossary ✓"], tag: ["new", "Drafted"], foot: "Appendices B–D · in review" },
+  ],
+  calls: [
+    { q: "Push the first complete draft?", d: "<b>Default:</b> push, then build the PDF and work through the verification register." },
+  ],
+  changes: [
+    { c: "g", t: "<b>Chapter 2</b> drafted from the British Library's own review" },
+    { c: "v", t: "<b>Glossary</b>: 33 terms" },
+    { c: "g", t: "<b>Pushed</b> chapter 2" },
+    { c: "g", t: "<b>Chapters 3–5, 7–23</b>, part introductions and epilogue written" },
+    { c: "g", t: "<b>Front matter, appendices B–D, reading list</b> written; Appendix A has all 23 exercises" },
+    { c: "v", t: "<b>Consistency pass</b>: 43 cross-chapter fixes; glossary 168 terms" },
+    { c: "v", t: "<b>Chapter art</b>: 24 images generated locally" },
+    { c: "v", t: "<b>Readability and red-thread audit</b>: 216 fixes plus structural edits; glossary 167 terms" },
+    { c: "g", t: "<b>Second pass after the editorial review</b>: lighter chapter frame, cases told once in prose, capability as the stated aim, 12% fewer words in the chapters" },
+  ],
+  concepts: {
+    core: [
+      ["Survivability", "The mission continues after the attack or fault has happened"],
+      ["Mission thread", "An important service and everything it stands on"],
+      ["Impact tolerance", "How long it may be gone, in days and money"],
+      ["Scenario baseline", "8–12 effects plus durations, cause-agnostic"],
+      ["Dependencies", "Five layers, including suppliers' suppliers"],
+      ["Eight prompts", "Gone, Unreachable, Wrong, Slow, Hostile, Forbidden, Unstaffed, Long"],
+      ["Effect classes", "Five classes, one fallback each"],
+      ["Common-cause", "Redundancy helps only as far as independence goes (beta)"],
+      ["Minimum service", "Degradation planned: what closes first"],
+      ["Designed in", "Must exist and have been used before; lead times are long"],
+      ["Recovery", "Clean restart, identity first, a programme of weeks"],
+      ["The loop", "Know → Contain → Recognise → Degrade → Recover → Adapt"],
+    ],
+    important: [
+      ["Concentration risk", "Sweden's recurring lesson, Tieto 2011 to Miljödata 2025"],
+      ["Manual fallback and intent", ""],
+      ["Out-of-band and PACE", ""],
+      ["Exit readiness", "The Forbidden scenario"],
+      ["Command and samverkan", "Lägesbild, inriktning, samordning"],
+      ["Exercise, blameless learning, drift", ""],
+    ],
+    peripheral: [
+      ["Regulation", ""], ["Höjd beredskap", ""], ["Safety-II", ""], ["Insurance and contracts", ""],
+    ],
+  },
+  gaps: [
+    ["call", "Conflict", "<b>Miljödata</b> IMY decision date and fine; <b>AWS</b> recovery 14:20 or 15:01 PDT; <b>SFS</b> number"],
+    ["call", "Conflict", "<b>CrowdStrike</b> 20/21 fields; <b>ENTSO-E</b> 21/22 recommendations; <b>Maersk</b> Ghana/Lagos; <b>ICC</b> mechanism"],
+    ["new", "Unverified", "Gudrun, Balticconnector, Ukraine 2015/2022, Synnovis, Kaspersky, PTS/Huawei, Amsterdam Trade Bank"],
+    ["new", "Secondary", "Hydro 22,000 PCs, Umeå's Primula, Coop co-ops, TLV total, Transportstyrelsen 190 MSEK"],
+    ["none", "Missing", "<b>Exercise method</b>: injects, roles, debrief (MCF, CISA CTEP, NCSC Exercise in a Box)"],
+    ["none", "Missing", "<b>Regionverket</b> fact sheet; water and district heating domain facts"],
+    ["none", "Missing", "<b>GNSS and time</b>; <b>cost of preparedness</b> (only incident costs exist)"],
+    ["none", "Missing", "<b>Counter-evidence</b> to \"build it all in\" (Perrow, Cook, Knight–Leveson); <b>small organisations</b>"],
+    ["none", "Thin", "Exercises → outcomes, skill decay, multi-week staffing: say so in the book"],
+  ],
+};
+
+
+const CHAPTER_PLAN = {
+  pattern: "Problem-centred spiral. Each part answers the question the previous one leaves open: why plan at all (I), what to protect and against what (II), which patterns keep it alive (III), who carries it (IV), how you know it works (V), and how far it reaches beyond your walls (VI). Concepts first met in plain words come back with full treatment later (shared fate in ch. 3, then ch. 10; the map in ch. 2, then ch. 8).",
+  exercises: "Most chapters end with a Regionverket tabletop exercise (box \"Exercise\", 20–60 min). Appendix A holds the full version of each: setup, injects with timings, facilitator notes and hidden discussion answers, like the labs and hints in Partial Failure.",
+  progression: [
+    { part: "I", label: "Frame", levels: ["Understand", "Analyse"] },
+    { part: "II", label: "Know", levels: ["Apply", "Analyse", "Create"] },
+    { part: "III", label: "Patterns", levels: ["Analyse", "Evaluate", "Create"] },
+    { part: "IV", label: "People", levels: ["Apply", "Create"] },
+    { part: "V", label: "Exercise, learn", levels: ["Evaluate", "Create"] },
+    { part: "VI", label: "Society", levels: ["Evaluate", "Create"] },
+  ],
+  parts: [
+    { id: "front", title: "Front matter", chapters: [
+      { n: 0, title: "Meet Regionverket", sub: "The utility that will have a bad year, and how the exercises work", note: "new",
+        hook: "06:40 on a February Monday, −18 °C outside. Regionverket's duty operator cannot log in, the phones still work, and tens of thousands of homes depend on the district heating staying on. (Fictional; the scenario every exercise starts from.)",
+        obj: ["**Describe** Regionverket's services and who depends on them (Understand)", "**Explain** how fast losing heat or water hurts, in hours (Understand)", "**Identify** the services in your own organisation that play the same roles (Apply)", "**Explain** how a tabletop exercise in this book is run (Understand)"],
+        eq: "How much of what your organisation does would still happen if every screen went dark tomorrow morning?",
+        sections: ["Regionverket on an ordinary day", "Who depends on it, and how fast it hurts", "What it stands on: a first sketch", "How the exercises in this book work", "Finding your own Regionverket"],
+        cases: [], visuals: ["Fact sheet table (services, customers, staff, sites, suppliers)", "Service sketch: water, heat, billing, customer service"],
+        exercise: "Exercise 0, warm-up (20 min): the login screen", deep: [], words: 3000, needs: "Research B (domain facts) and A (exercise method)" },
+    ]},
+    { id: "p1", title: "Part I · The frame", chapters: [
+      { n: 1, title: "What If We Are Hit Tomorrow?", sub: "Assume it will happen", keyphrase: "Assume it will happen: stated plainly in the opening, closed on in the synthesis",
+        hook: "Tietoevry, January 2024: ransomware in one part of one data centre, and by Monday more than 120 agencies cannot run payroll. January salaries were paid only because they had already been sent to the bank.",
+        obj: ["**Distinguish** robustness, resilience, continuity and survivability (Understand)", "**Explain** why \"if\" becomes \"when, and for how long\" (Understand)", "**Rewrite** your three most-feared events as an effect and a duration (Apply)", "**Assess** what your organisation assumes about its largest supplier (Evaluate)"],
+        eq: "If disruption is certain, what exactly are you responsible for?",
+        sections: ["One data centre, 120 agencies", "Four words that get confused", "From \"if\" to \"when, and for how long\"", "Your defences are dependencies too", "Thirty years of assuming compromise"],
+        cases: ["Tietoevry/Primula 2024", "CrowdStrike 2024", "Tieto 2011 (brief)"], visuals: ["Table: the four words with examples", "Timeline: Swedish concentration incidents 2011–2025"],
+        exercise: "Certainty reframe for Regionverket (20 min)", deep: ["Safety-I and Safety-II", "Antifragility: a provocation, not a method"], words: 4500 },
+      { n: 2, title: "Can We See the Whole Picture?", sub: "The book's model, shown on one incident", note: "shortened: full method in ch. 8",
+        hook: "British Library, 10:00 on Saturday 28 October 2023: the Gold team meets by WhatsApp video \"in the absence of email\".",
+        obj: ["**Name** the five layers and the six stages of the loop (Remember)", "**Locate** the British Library's events on the map (Apply)", "**Explain** why the map starts from missions, not systems (Understand)"],
+        eq: "Can an organisation see its whole exposure on one page, or does the page always leave something out?",
+        sections: ["One incident, five layers", "Missions, not systems", "From knowing to adapting: the loop", "Where the map comes from", "How the rest of the book fills it in"],
+        cases: ["British Library 2023"], visuals: ["The one-page map (layers × loop)", "British Library timeline"],
+        exercise: null, deep: ["Crosswalk to NIST 800-160, SEI, Hollnagel, ResiliNets"], words: 3500 },
+      { n: 3, title: "What Must Exist Before the Crisis?", sub: "What you can have in a crisis only if you built it first",
+        hook: "Coop, Friday 2 July 2021, about 19:00: a till supplier two tiers away is hit and 800 stores close. The regional co-operatives on their own tills stay open. Nobody had planned it that way.",
+        obj: ["**Explain** why capabilities improvised in a crisis rarely work (Understand)", "**Distinguish** designed, accidental and improvised fallbacks (Analyse)", "**Build** a crisis inventory and lead-time register for one service (Apply)", "**Judge** in plain terms whether a fallback fails with what it backs up (Evaluate)"],
+        eq: "How much should you spend today on something you hope never to use?",
+        sections: ["Open by accident", "Designed, lucky or improvised", "Backups with nowhere to land", "Lead times are measured in months", "Does the fallback fail with the primary?", "The crisis inventory"],
+        cases: ["Coop 2021", "Umeå and Primula 2024", "British Library payroll vs on-premise", "Maersk's offline domain controller"], visuals: ["Table: designed / accidental / improvised", "Lead-time register example"],
+        exercise: "Crisis inventory for Regionverket billing (40 min)", deep: ["When redundancy adds failure (Perrow, Cook)"], words: 4500 },
+    ]},
+    { id: "p2", title: "Part II · Know, through scenarios", chapters: [
+      { n: 4, title: "What Must Keep Working?", sub: "The least you must do, and how long you can go without it", note: "was ch. 5",
+        hook: "TLV after Tietoevry: one month without one system cost more than 110 MSEK, and almost none of it landed on TLV.",
+        obj: ["**Define** important service, impact tolerance and minimum viable service (Remember)", "**Write** a service card (Apply)", "**Express** a tolerance in days and in money (Apply)", "**Compare** your own cost with the cost to those you serve (Analyse)"],
+        eq: "Whose harm counts when you set a tolerance: yours, or the people you serve?",
+        sections: ["The bill landed elsewhere", "From systems to services", "Harm over time", "A tolerance you can defend", "Three tiers, and why most things are tier 3", "Mission threads: from the service down"],
+        cases: ["TLV/Tietoevry 2024", "Primula's January payroll"], visuals: ["Impact curve over time", "Service card template"],
+        exercise: "Service cards for water, heat and billing (45 min)", deep: ["The UK impact-tolerance regime", "Why business impact analyses come out optimistic"], words: 4500 },
+      { n: 5, title: "What Should We Plan For?", sub: "A short list everyone plans against", note: "was ch. 4",
+        hook: "One sentence in a Swedish defence bill: society must manage \"at least three months\" of severe disruption. It steers planning across the country without naming a single cause.",
+        obj: ["**Distinguish** cause-phrased and effect-phrased scenarios (Understand)", "**Explain** severe-but-plausible and reasonable worst case (Understand)", "**Draft** a baseline of 8–12 effect-plus-duration scenarios with precedents (Create)", "**Critique** a long risk register as a planning baseline (Evaluate)"],
+        eq: "Should you plan for what is likely, or for what you could not survive?",
+        sections: ["One sentence that steers a country", "Causes multiply, effects don't", "Severe, plausible, and how long", "A short list, issued centrally", "Pre-mortems before big changes", "The Regionverket baseline"],
+        cases: ["Sweden's three-month assumption", "UK National Risk Register", "NATO baseline requirements", "FEMA Community Lifelines"], visuals: ["Cause vs effect table", "Regionverket's ten scenarios"],
+        exercise: "Pre-mortem on a planned migration (40 min)", deep: ["Shell and scenario planning", "No evidence on the right list length"], words: 4500 },
+      { n: 6, title: "Who Do We Rely On?", sub: "Are you standing on solid ground?",
+        hook: "Tieto, November 2011: a storage fault hits about 50 customers, some without IT for weeks, and nobody holds the full picture of who is affected.",
+        obj: ["**Map** dependencies across five layers, including suppliers' suppliers (Apply)", "**Apply** the eight prompts to a dependency (Apply)", "**Distinguish** a dead dependency from a dead path to it (Analyse)", "**Prioritise** the dependencies that have no fallback (Evaluate)"],
+        eq: "How far down the supply chain is it your job to look?",
+        sections: ["Fifty customers and nobody with the picture", "Five layers, and the ones people forget", "Suppliers' suppliers", "Eight questions for every dependency", "Forbidden and Long: the two nobody asks", "When everyone uses the same supplier", "Keeping the map alive"],
+        cases: ["Tieto 2011", "Coop/Kaseya 2021", "Transportstyrelsen 2015–2017", "Miljödata 2025"], visuals: ["Layered dependency diagram", "Prompt matrix for one service", "Concentration timeline"],
+        exercise: "Prompt workshop on the billing SaaS (60 min)", deep: ["The prompts against HAZOP and STPA guidewords"], words: 5500 },
+      { n: 7, title: "How Do We Prepare for What We Can't Predict?", sub: "Preparing for what you cannot predict",
+        hook: "Norsk Hydro, 19 March 2019: plants isolated and switched to manual operation before anyone knew exactly what had happened.",
+        obj: ["**Explain** how the prompts' answers group into five effect classes (Understand)", "**Map** scenarios to effect classes (Apply)", "**Design** one fallback per class, with owner and test cadence (Create)", "**Evaluate** whether a fallback is independent of the primary (Evaluate)"],
+        eq: "Is preparing for classes of effect enough, or do some causes need their own plan?",
+        sections: ["Hydro didn't wait for the diagnosis", "From many answers to five effects", "One fallback per class", "Can't log in: the class that takes the others with it", "Out-of-band, by design", "When the cause does matter"],
+        cases: ["Norsk Hydro 2019", "British Library, Rogers, Meta: improvised channels", "Baltic cables: many causes, one effect"], visuals: ["Scenario × effect-class matrix", "Out-of-band platform sketch"],
+        exercise: "Nobody can log in at 07:00 (45 min)", deep: ["All-hazards planning in ISO 22301, BCI and FEMA"], words: 5000 },
+      { n: 8, title: "How Do the Pieces Fit Together?", sub: "Putting the model together for your own services", note: "new: full model, end of Part II",
+        hook: "Back to the map from chapter 2, now filled in for Regionverket's drinking water, with three cells still empty.",
+        obj: ["**Explain** how the page connects services, scenarios, dependencies and fallbacks (Understand)", "**Construct** the one-page matrix for a mission thread (Create)", "**Identify** empty cells and assign owners (Analyse)"],
+        eq: "When the page is full, what does it still not show you?",
+        sections: ["Back to the map", "The rows: five layers", "The columns: from Know to Adapt", "Empty cells are the finding", "Running the baseline through the page", "Keeping the page honest"],
+        cases: ["Regionverket drinking water (worked)"], visuals: ["Completed matrix for drinking water"],
+        exercise: "Build the page for district heating (60 min)", deep: ["STPA for the two or three most critical threads"], words: 4000 },
+    ]},
+    { id: "p3", title: "Part III · Organisational patterns", chapters: [
+      { n: 9, title: "What Keeps Running When the Rest Is Gone?", sub: "Keeping the essential part running when the rest is gone",
+        hook: "The British Library's systems were gone for months, but the reading rooms stayed open and the Fantasy exhibition reached 105% of its target.",
+        obj: ["**Explain** graceful degradation as a planned sequence (Understand)", "**Design** a minimum-service mode with trigger, staffing and manual inputs (Create)", "**Size** a buffer in days against the baseline (Apply)", "**Analyse** coupling in your own organisation (Analyse)"],
+        eq: "Who decides what closes first, and when do they decide it?",
+        sections: ["The library stayed open", "Degrade by purpose, not by accident", "The minimum-service mode", "Cells: parts that can stand alone", "Buffers of stock, time and slack", "Your provider's recovery is not yours"],
+        cases: ["British Library 2023", "Tietoevry recovery 2024", "Balticconnector and LNG"], visuals: ["Degradation ladder", "Buffer sizing table"],
+        exercise: "40% of staff out for a month (45 min)", deep: ["Perrow's coupling and complexity"], words: 4500 },
+      { n: 10, title: "Why Do Spares Fail Together?", sub: "Redundancy, diversity and shared fate",
+        hook: "Eastern 855, 5 May 1983: three engines on one aircraft lose their oil, because the same overnight maintenance left the same seals out of all three.",
+        obj: ["**Explain** common-cause failure and why redundancy has a ceiling (Understand)", "**Calculate** the effect of a common-cause share on a redundant pair (Apply)", "**List** what a primary and its backup share (Analyse)", "**Evaluate** the cost and limits of diversity (Evaluate)"],
+        eq: "When is a second copy worth paying for?",
+        sections: ["Three engines, one night's work", "Why two of the same fail together", "The beta factor in plain numbers", "What pairs share", "Rules that break the link", "Regional is not independent", "Diversity isn't free"],
+        cases: ["Eastern 855 and ETOPS", "AWS us-east-1 2025", "Coop: one stack vs the co-ops", "Baltic cables: shared sea lanes"], visuals: ["Beta-factor chart", "Shared-dependency checklist"],
+        exercise: "One bad change, everywhere at once (40 min)", deep: ["Beta-factor arithmetic", "Knight and Leveson on N-version software"], words: 5000, consistency: "AWS times must match Partial Failure ch. 16; independence argument must match its ch. 1" },
+      { n: 11, title: "Can We Work by Hand?", sub: "Operating by hand, and knowing what you are trying to achieve",
+        hook: "Bilprovningen, November 2011: bookings closed when Tieto's storage failed, but the inspections carried on without IT.",
+        obj: ["**Explain** commander's intent and why it matters when the chain breaks (Understand)", "**Write** a one-paragraph intent for a mission thread (Create)", "**Design** a downtime kit and a manual-hour drill (Create)", "**Assess** how quickly manual skill decays, and how sure we are (Evaluate)"],
+        eq: "How far should people be trusted to decide on their own when nobody can reach them?",
+        sections: ["Inspections without IT", "Manual modes are designed, not found", "Intent: purpose, end state, limits", "Authority that survives a broken chain", "Weeks on paper", "Keeping manual skill alive"],
+        cases: ["Bilprovningen 2011", "Norsk Hydro 2019", "Østre Toten 2021", "Ukraine grid 2015 (verify)"], visuals: ["Intent template", "Downtime kit contents"],
+        exercise: "Waterworks on local control (45 min)", deep: ["Mission command doctrine", "Static stability, in plain words"], words: 4500 },
+      { n: 12, title: "What If a Working System Is Forbidden?", sub: "Exit readiness and sovereignty", note: "was \"Exit readiness and sovereignty\"",
+        hook: "Transportstyrelsen: about 80 technicians abroad without Swedish clearance had access for 29 months, and getting operations back in-house took until November 2024.",
+        obj: ["**Explain** Forbidden as a scenario: law, sanctions, jurisdiction (Understand)", "**Build** an exit card for a critical supplier (Apply)", "**Distinguish** exiting the data, the function and the knowledge (Analyse)", "**Evaluate** the jurisdiction risk in your supplier list (Evaluate)"],
+        eq: "How much sovereignty can an organisation afford, and how much can it afford to give up?",
+        sections: ["Seven years to leave", "Forbidden: law, sanctions, jurisdiction", "Three exits: data, function, knowledge", "The exit card", "Test the export", "When the cloud is the lifeboat"],
+        cases: ["Transportstyrelsen 2015–2024", "ICC and Microsoft 2025 (contested)", "Ukraine 2022 (verify)"], visuals: ["Exit card template", "Supplier jurisdiction map"],
+        exercise: "A feature barred in Sweden from Monday (45 min)", deep: ["CLOUD Act, Schrems II and DORA Article 28"], words: 4500 },
+      { n: 13, title: "How Do We Start Again?", sub: "Rebuilding when you can't trust what's left",
+        hook: "Maersk, June 2017: every synchronised domain controller wiped, except one that happened to be offline in Ghana because of a power cut.",
+        obj: ["**Distinguish** restoring from rebuilding (Understand)", "**Order** a restoration by dependency, identity first (Apply)", "**Plan** recovery as a programme with phases (Create)", "**Evaluate** a recovery plan by timed rehearsal (Evaluate)"],
+        eq: "When can you trust what you bring back?",
+        sections: ["One server in Ghana", "Restore or rebuild", "Identity first: the order of things", "Backups need somewhere to land", "Recovery is a programme", "Rehearse with a stopwatch"],
+        cases: ["Maersk 2017", "British Library: Respond, Adapt, Renew"], visuals: ["Restore order diagram", "Recovery programme phases"],
+        exercise: "Rebuild identity from nothing: how long? (45 min)", deep: ["Clean-room recovery", "NIST SP 800-184"], words: 5000 },
+    ]},
+    { id: "p4", title: "Part IV · People, business and communication", chapters: [
+      { n: 14, title: "How Do We Reach People When Everything Is Down?", sub: "How each audience hears what it needs when systems fail",
+        hook: "Rogers, July 2022: the incident team relied on Rogers' own mobile network, which was the thing that was down; staff were handed SIM cards from other carriers.",
+        obj: ["**Name** the six things crisis communication does (Remember)", "**Explain** why staff should hear before the public (Understand)", "**Design** a PACE plan per audience (Create)", "**Evaluate** how independent a channel really is (Evaluate)"],
+        eq: "Can a message be both fast and trusted when everything is down?",
+        sections: ["Talking through the outage you are fixing", "Six things communication does", "Primary, alternate, contingency, emergency", "Staff first", "A rhythm of briefings", "Test the call-out"],
+        cases: ["Rogers 2022", "British Library 2023", "Norsk Hydro 2019"], visuals: ["Mode × audience × PACE matrix"],
+        exercise: "Mobile network down, all staff to reach (40 min)", deep: ["Media richness", "CDC's CERC"], words: 4500 },
+      { n: 15, title: "Who Decides at 03:00?", sub: "Command, coordination and collaboration", note: "was \"Command, coordination and collaboration\"",
+        hook: "Tietoevry 2024: hundreds of customers hit by the same attack, each with its own partial view and no shared picture.",
+        obj: ["**Describe** Gold/Silver/Bronze and incident roles (Understand)", "**Explain** inriktning, samordning and lägesbild (Understand)", "**Design** a role roster with deputies and a decision log (Create)", "**Analyse** when to coordinate and when to collaborate across organisations (Analyse)"],
+        eq: "In a crisis that spans many organisations, who is in charge?",
+        sections: ["Hundreds of customers, no shared picture", "Roles before names", "The Swedish model: samverkan och ledning", "A shared lägesbild", "Customers of one supplier, together", "Decisions on the record"],
+        cases: ["Tietoevry 2024", "Storm Gudrun 2005 (verify)", "British Library Gold/Silver"], visuals: ["Role structure diagram", "Lägesbild template"],
+        exercise: "A supplier incident with three customers (60 min)", deep: ["N2C2M2 maturity approaches"], words: 4500 },
+      { n: 16, title: "Who Is Still Working in Week Three?", sub: "Who will still be working in week three",
+        hook: "Norsk Hydro's staff ran plants by hand for weeks; the British Library bought credit monitoring for every employee.",
+        obj: ["**Explain** why staffing must be planned for duration (Understand)", "**Build** a key-person register with deputies (Apply)", "**Plan** shift patterns from hour zero (Apply)", "**Assess** conflicts with krigsplacering (Evaluate)"],
+        eq: "How long can people carry a crisis, and who decides when they stop?",
+        sections: ["Week three", "Shifts from hour zero", "Key persons and deputies", "Krigsplacering and families", "Wellbeing is operational"],
+        cases: ["Norsk Hydro 2019", "British Library 2023"], visuals: ["Shift plan example", "Key-person register"],
+        exercise: "Five absences that would stop us (30 min)", deep: ["Fatigue and decision quality (verify sources)"], words: 4000 },
+      { n: 17, title: "Who Pays?", sub: "Who pays, who helps, and what you signed",
+        hook: "TLV concluded that suing a large supplier was \"i princip omöjligt\" for a small agency, and proposed that the Chancellor of Justice act for the state.",
+        obj: ["**Explain** why compensation rarely covers the loss (Understand)", "**Test** a contract against the baseline (Apply)", "**Design** mutual aid and pre-authorised crisis spending (Create)", "**Evaluate** insurance and reserves (Evaluate)"],
+        eq: "Who should pay for survivability: the organisation, its suppliers or the state?",
+        sections: ["Practically impossible to sue", "What contracts actually promise", "Liability caps against real loss", "Mutual aid", "Money in the first hour"],
+        cases: ["TLV and Tietoevry claims", "Rogers and Canadian mutual aid", "British Library reserve", "Norsk Hydro insurance"], visuals: ["Contract test checklist"],
+        exercise: "Read the billing contract against the baseline (45 min)", deep: ["Cyber insurance exclusions"], words: 4000 },
+      { n: 18, title: "What Does Everyone Do When There Is No Screen?", sub: "What every employee does when there is no screen",
+        hook: "November 2024: Om krisen eller kriget kommer lands in more than five million Swedish letterboxes, and tells everyone to go to their usual job under heightened alert.",
+        obj: ["**Explain** the public-safe rule (Understand)", "**Distinguish** handbook content from the restricted annex (Analyse)", "**Draft** the outline of your handbook (Create)", "**Evaluate** a handbook by reading it aloud in an exercise (Evaluate)"],
+        eq: "What should every employee know without a screen?",
+        sections: ["A brochure for five million", "If it would be a problem in the newspaper", "What goes in", "The restricted annex", "Read it aloud, revise it yearly"],
+        cases: ["Om krisen eller kriget kommer 2024", "Aviation QRH, hospital downtime binders"], visuals: ["Handbook outline"],
+        exercise: "Day one of a blackout, a new hire (30 min)", deep: ["Checklist design (Degani and Wiener)"], words: 3500 },
+    ]},
+    { id: "p5", title: "Part V · Operate, exercise and learn", chapters: [
+      { n: 19, title: "Would We Notice?", sub: "Would you notice, and would you believe it?",
+        hook: "British Library, 01:15 on 26 October 2023: an alert about blocked activity is checked, nothing obviously malicious is found, the account is unblocked. Two days later the attack begins.",
+        obj: ["**Explain** weak signals and normalisation of deviance (Understand)", "**Design** escalation rules that favour ambiguous signals (Create)", "**Identify** data gaps for each scenario (Analyse)", "**Evaluate** last quarter's dismissed alerts (Evaluate)"],
+        eq: "Would you have believed it?",
+        sections: ["An alert two days early", "Signals and noise", "Escalate the ambiguous", "What you can't see: data gaps", "A weekly look for leaders"],
+        cases: ["British Library 2023", "Iberian blackout 2025"], visuals: ["Signal-to-action timeline"],
+        exercise: "Near-miss review (30 min)", deep: ["Vaughan and the Challenger decision"], words: 4000 },
+      { n: 20, title: "How Do We Know Our Fallbacks Work?", sub: "How you know your fallbacks work",
+        hook: "Meta, October 2021: \"we've never previously run a storm that simulated our global backbone being taken offline.\"",
+        obj: ["**Distinguish** tabletop, functional and full-scale exercises (Understand)", "**Design** a tabletop with injects and a debrief (Create)", "**Plan** an exercise calendar from the baseline (Create)", "**Evaluate** an exercise by what changed afterwards (Evaluate)"],
+        eq: "Does practice make survival more likely, and how would you know?",
+        sections: ["The storm they never ran", "Kinds of exercise", "Anatomy of a tabletop", "Practise the recovery and the manual mode", "An exercise calendar", "Exercise debt"],
+        cases: ["Meta 2021", "British Library's total-outage lesson", "Totalförsvarsövning"], visuals: ["Exercise calendar over three years", "Tabletop anatomy diagram"],
+        exercise: "Design your own tabletop (60 min)", deep: ["What evidence links exercises to outcomes"], words: 5000 },
+      { n: 21, title: "How Do Good Decisions Add Up to Disaster?", sub: "How reasonable decisions add up to disaster", note: "was Part VI",
+        hook: "British Library, 2020: MFA rolled out for cloud apps, domain access left out \"for reasons of practicality, cost and impact\". The risk was \"perhaps under-appraised\".",
+        obj: ["**Explain** local rationality and drift (Understand)", "**Run** a review that reconstructs a decision in context (Apply)", "**Analyse** your risk acceptances for drift (Analyse)", "**Design** drift indicators for your organisation (Create)"],
+        eq: "Can you learn from an incident without anyone being responsible?",
+        sections: ["A reasonable decision in 2020", "Local rationality", "Drift: a run of success", "Reviews that reconstruct", "A risk register with dates", "Independent investigation, the SHK way"],
+        cases: ["British Library MFA decision", "CrowdStrike's safe deployments before July 2024"], visuals: ["Drift timeline"],
+        exercise: "Blameless review of an earlier exercise (45 min)", deep: ["Cook, Dekker, Allspaw"], words: 4500 },
+    ]},
+    { id: "p6", title: "Part VI · Society and total defence", chapters: [
+      { n: 22, title: "What Does Our IT Stand On?", sub: "What your IT stands on",
+        hook: "Estlink 2, damaged on Christmas Day 2024 and back in service at 01:00 on 20 June 2025, nearly six months later, with spare cable already made.",
+        obj: ["**Explain** infrastructure interdependency and cascades (Understand)", "**Build** Long scenarios from real repair records (Apply)", "**Map** your dependencies down to power, telecom and time (Analyse)", "**Evaluate** your hours of autonomy without grid and mobile (Evaluate)"],
+        eq: "How far down does your dependency map need to go?",
+        sections: ["Six months for one cable", "Power, telecom, time", "Cascades", "Repair records as scenario data", "GNSS and time", "Agreeing restoration priority"],
+        cases: ["Estlink 2 and C-Lion1", "Iberian blackout 2025", "Rogers 2022", "Storm Gudrun 2005 (verify)"], visuals: ["Infrastructure dependency stack", "Repair-time table"],
+        exercise: "Power and mobile down for five days (60 min)", deep: ["Rinaldi, Peerenboom and Kelly on interdependency"], words: 4500 },
+      { n: 23, title: "Three Months or a Weekend?", sub: "What changes under heightened alert, and how to justify the cost",
+        hook: "Riksrevisionen, 2025: the build-up of Sweden's civil defence is \"saktfärdig\", slow.",
+        obj: ["**Explain** höjd beredskap and what the three-month assumption implies (Understand)", "**Map** legal obligations onto the model (Apply)", "**Build** a one-page case for investment (Create)", "**Evaluate** your coverage of the baseline (Evaluate)"],
+        eq: "Three months or a weekend: what are you really planning for?",
+        sections: ["A slow build-up", "What changes under heightened alert", "Obligations, mapped onto the model", "Dimension peacetime fallbacks for war", "The one-page case", "Coverage of the baseline"],
+        cases: ["Riksrevisionen 2025", "TLV 110+ MSEK", "Transportstyrelsen's exit"], visuals: ["Obligations × loop table", "Baseline coverage table"],
+        exercise: "Three months of heightened alert (60 min)", deep: ["Cost of preparedness: what evidence exists"], words: 4500 },
+    ]},
+  ],
+  back: [
+    { t: "Epilogue: Everyday Survivability", d: "Small batches, known dependencies, short feedback loops, deputies, honest reviews. The Monday-morning test." },
+    { t: "Appendix A: Tabletop Exercises", d: "One per chapter: setup, injects with timings, facilitator notes, hidden discussion answers. Replaces labs.", tag: "new" },
+    { t: "Appendix B: Analysis Methods", d: "STPA, FRAM, FMEA, HAZOP, fault and attack trees, NIST 800-160, Wardley; the prompts against each method's guidewords." },
+    { t: "Appendix C: Regulatory Reference", d: "Dated: cybersäkerhetslagen, CER, DORA, säkerhetsskyddslagen, förordning 2022:524, MCF and NCSC." },
+    { t: "Appendix D: For Engineers", d: "Old A–D merged: design patterns, recovery engineering, platforms, observability, the out-of-band reference design.", tag: "merged" },
+    { t: "Case sources · Recommended reading · Glossary", d: "As in Partial Failure. Verification register removed before print." },
+  ],
+};
+
+document.getElementById("pattern").textContent = CHAPTER_PLAN.pattern;
+document.getElementById("exnote").textContent = CHAPTER_PLAN.exercises;
+(() => {
+  const L = ["Remember", "Understand", "Apply", "Analyse", "Evaluate", "Create"];
+  document.getElementById("prog").innerHTML = `<div class="prog-row prog-head"><span></span>${L.map(l => `<span>${l}</span>`).join("")}</div>` +
+    CHAPTER_PLAN.progression.map(r => `<div class="prog-row"><span>${r.part} · ${r.label}</span>${L.map(l => `<span class="cell${r.levels.includes(l) ? " on" : ""}"></span>`).join("")}</div>`).join("");
+})();
+const md = t => t.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+document.getElementById("chplan").innerHTML = CHAPTER_PLAN.parts.map(p => `<div class="ptitle">${p.title}</div>` + p.chapters.map(c => `
+  <details class="ch"><summary><span class="chn">${String(c.n).padStart(2, "0")}</span>
+    <span class="cht">${c.title}<small>${c.sub}</small></span>
+    <span class="chmeta">${c.note ? `<span class="tag new">${c.note}</span>` : ""}${c.exercise ? '<span class="tag spec">exercise</span>' : ""}<span>${(c.words / 1000).toFixed(1)}k words</span></span></summary>
+    <div class="chbody">
+      <div class="full"><h6>Hook</h6><p class="hook">${c.hook}</p></div>
+      <div><h6>Learning objectives</h6><ul>${c.obj.map(o => `<li>${md(o)}</li>`).join("")}</ul></div>
+      <div><h6>Essential question</h6><p class="eq">${c.eq}</p></div>
+      <div><h6>Sections</h6><ol>${c.sections.map(x => `<li>${x}</li>`).join("")}</ol></div>
+      <div>${c.cases.length ? `<h6>Cases</h6><ul>${c.cases.map(x => `<li>${x}</li>`).join("")}</ul><br>` : ""}
+        <h6>Figures and tables</h6><ul>${c.visuals.map(x => `<li>${x}</li>`).join("")}</ul><br>
+        ${c.exercise ? `<h6>Exercise</h6><p>${c.exercise}</p><br>` : ""}
+        ${c.keyphrase ? `<h6>Key phrase</h6><p>${c.keyphrase}</p><br>` : ""}
+        ${c.deep.length ? `<h6>Deep dive</h6><ul>${c.deep.map(x => `<li>${x}</li>`).join("")}</ul>` : ""}
+        ${c.needs ? `<br><h6>Depends on</h6><p>${c.needs}</p>` : ""}
+        ${c.consistency ? `<br><h6>Consistency</h6><p>${c.consistency}</p>` : ""}</div>
+    </div></details>`).join("")).join("");
+document.getElementById("backm").innerHTML = CHAPTER_PLAN.back.map(b => `<div><h4>${b.t}${b.tag ? ` <span class="tag new">${b.tag}</span>` : ""}</h4><p>${b.d}</p></div>`).join("");
+
+// timeline
+(() => {
+  const el = document.getElementById("timeline"), ms = PLAN.milestones, n = ms.length;
+  const pos = i => 50 + i * (100 - 0) / (n - 1);
+  const nowIdx = ms.findIndex(m => m.cls === "now");
+  const pct = i => `calc(${(i / (n - 1)) * 100}% )`;
+  el.innerHTML = `<div class="track"><div class="done" style="width:calc(${(nowIdx / (n - 1)) * 100}% + 40px)"></div>
+    <div class="todo" style="left:calc(${(nowIdx / (n - 1)) * 100}% + 50px)"></div></div>` +
+    ms.map((m, i) => `<div class="ms ${m.cls}" style="left:calc(50px + (100% - 100px) * ${i / (n - 1)})">
+      ${m.cls === "now" ? '<div class="here">You are here</div>' : ""}
+      <div class="node"></div><h3>${m.title}</h3><div class="st">${m.status}</div></div>`).join("");
+})();
+
+document.getElementById("parts").innerHTML = PLAN.parts.map(p => `
+  <div class="part ${p.cls || ""}">
+    <h4><span class="roman">${p.n}</span>${p.t}</h4>
+    <div><span class="tag ${p.tag[0]}">${p.tag[1]}</span></div>
+    <ul>${p.ch.map(c => `<li>${c}</li>`).join("")}</ul>
+    ${p.why ? `<div class="why">${p.why}</div>` : `<div class="foot">${p.foot}</div>`}
+  </div>`).join("");
+
+document.getElementById("calls").innerHTML = PLAN.calls.map(c => `<li><h3>${c.q}</h3><div class="def">${c.d}</div></li>`).join("");
+document.getElementById("changes").innerHTML = PLAN.changes.map(c => `<li><span class="dot ${c.c}"></span><span>${c.t}</span></li>`).join("");
+
+const cg = (k, label, items) => `<div class="cgroup ${k}"><h5>${label}</h5><div class="cl">${items.map(([t, d]) =>
+  `<span class="c"${d ? ` title="${d.replace(/"/g, "&quot;")}"` : ""}>${t}</span>`).join("")}</div></div>`;
+document.getElementById("concepts").innerHTML =
+  cg("core", "Core", PLAN.concepts.core) + cg("imp", "Important", PLAN.concepts.important) + cg("per", "Peripheral", PLAN.concepts.peripheral);
+
+document.getElementById("gaps").innerHTML = PLAN.gaps.map(([c, k, t]) => `<tr><td><span class="tag ${c}">${k}</span></td><td>${t}</td></tr>`).join("");
+</script>
+<script src="mermaid-11.16.1.min.js"></script>
+<script>
+if (window.mermaid) {
+  mermaid.initialize({ startOnLoad: false, securityLevel: "strict", theme: "base",
+    flowchart: { useMaxWidth: true },
+    themeVariables: { darkMode: true, background: "#1a1a24", mainBkg: "#24233a", primaryColor: "#24233a",
+      primaryTextColor: "#ecebf3", primaryBorderColor: "#b9a8ff", lineColor: "#6c6b7d",
+      fontFamily: "Inter, sans-serif", fontSize: "15px" } });
+  // measure labels with the web font, not the fallback, or they get clipped
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => mermaid.run({ nodes: [document.getElementById("depmap")] }));
+}
+</script>
+</body>
+</html>
