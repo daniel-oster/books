@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Books</title>
+<meta name="description" content="Two books by Daniel Öster on keeping software and services working when parts of them fail. Free to read online or as PDF.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
-<link rel="stylesheet" href="assets/book.css?v=183c87c0">
+<link rel="stylesheet" href="assets/book.css?v=199d9f06">
 <script>
   // follow the theme chosen in the book (same origin, same localStorage key)
   try { const t = localStorage.getItem('pf-theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
@@ -17,54 +18,77 @@
 <main class="landing">
   <button class="theme-toggle" id="themeBtn" type="button">Light theme</button>
   <header class="landing-head">
-    <div class="kicker">Library</div>
+    <div class="kicker">Daniel Öster · Library</div>
     <h1>Books</h1>
+    <p class="lede">Two books about what happens when part of a system fails, and how to keep working when it does. <em>Free to read online or as PDF.</em></p>
   </header>
 
-  <section class="term" aria-label="Book list">
-    <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i><span>~/books</span></div>
-    <div class="term-body">
-      <div class="prompt"><span class="user">reader@library</span>:<span class="path">~/books</span>$ git log <span class="arg">--decorate</span></div>
-      <ol class="git-log">
-        <li class="commit">
-          <span class="graph" aria-hidden="true">*</span>
-          <div>
-            <div><span class="hash">commit 21893d2</span> <span class="refs">(<span class="head">HEAD</span> -&gt; <span class="branch">main</span>, <span class="remote">origin/main</span>, <span class="tag">tag: draft</span>, <span class="tag">lang: en, sv</span>)</span></div>
-            <div><span class="label">Date:</span><span class="date">Wed Oct 7 2026</span></div>
-            <div class="commit-msg">
-              <h2><a href="we_must_survive/">We Must Survive</a> <span class="draft-chip">Draft</span></h2>
-              <p class="sub">Analysing, designing, operating and proving that missions survive severe disruption</p>
-              <p class="blurb">In July 2021 a till supplier two tiers away was hit, and 800 Coop stores closed. The regional co-ops that ran their own tills stayed open. Nobody had planned it that way. This book is about planning it that way: deciding what must keep working, finding out what it really depends on, and building the fallbacks before the day you need them. It is written for whoever answers for keeping important services running, with Swedish cases from Tieto 2011 to Tietoevry 2024 and a fictional regional utility as the running example. All 24 chapters, with a tabletop exercise for each, are in a first complete draft.</p>
-              <dl class="trailers">
-                <dt>Chapters</dt><dd>24 in six parts, four appendices</dd>
-                <dt>Status</dt><dd>First complete draft</dd>
-                <dt>Read-at</dt><dd class="multi"><a href="we_must_survive/">We Must Survive <span>→</span></a> <span class="dim">(English)</span><br><a href="vi_maste_overleva/" lang="sv">Vi måste överleva <span>→</span></a> <span class="dim">(svensk översättning)</span></dd>
-                <dt>PDF</dt><dd class="multi"><a href="we_must_survive/we-must-survive.pdf" download>We Must Survive <span>↓</span></a> <span class="dim">(347 pages, 9 MB)</span><br><a href="vi_maste_overleva/vi-maste-overleva.pdf" download lang="sv">Vi måste överleva <span>↓</span></a> <span class="dim">(352 pages, 9 MB)</span></dd>
-              </dl>
-            </div>
-          </div>
-        </li>
-        <li class="commit">
-          <span class="graph" aria-hidden="true">*</span>
-          <div>
-            <div><span class="hash">commit 4fd6467</span> </div>
-            <div><span class="label">Date:</span><span class="date">Fri Oct 2 2026</span></div>
-            <div class="commit-msg">
-              <h2><a href="partial_failure/">Partial Failure</a></h2>
-              <p class="sub">An introduction to distributed systems, from first principles to production</p>
-              <p class="blurb">You send a request and the timeout fires. Did the write happen? <span class="squiggle">Maybe.</span> This book is about that question and everything that grows out of it. Over seventeen chapters you learn to reason about systems where the network loses messages, clocks drift apart and a server can die halfway through your request, and to build systems that keep working anyway: retries that are safe to repeat, replicas that agree with each other, and services you can change and deploy without waking anyone at three in the morning. Along the way, labs let you break your own code with simulated network partitions and overload, and watch what happens.</p>
-              <dl class="trailers">
-                <dt>Chapters</dt><dd>17 in 4 parts, with labs</dd>
-                <dt>Read-at</dt><dd><a href="partial_failure/">Partial Failure <span>→</span></a></dd>
-                <dt>PDF</dt><dd><a href="partial_failure/partial-failure.pdf" download>Partial Failure <span>↓</span></a> <span class="dim">(309 pages, 7 MB)</span></dd>
-              </dl>
-            </div>
-          </div>
-        </li>
-      </ol>
-      <div class="prompt"><span class="user">reader@library</span>:<span class="path">~/books</span>$<span class="cursor"></span></div>
-    </div>
-  </section>
+  <ol class="shelf">
+    <li class="book">
+      <a class="stack" href="we_must_survive/" aria-label="Read We Must Survive">
+        <span class="cover3d cover-wms behind" aria-hidden="true">
+          <span class="art"></span>
+          <span class="body"><span class="cover-title" lang="sv">Vi måste överleva</span></span>
+        </span>
+        <span class="cover3d cover-wms">
+          <span class="art"></span>
+          <span class="stamp">Draft</span>
+          <span class="body">
+            <span class="cover-title">We Must Survive</span>
+            <span class="cover-sub">Analysing, designing, operating and proving that missions survive severe disruption</span>
+            <span class="cover-author">Daniel Öster</span>
+          </span>
+        </span>
+      </a>
+      <div class="book-text">
+        <p class="meta">Survivability &amp; continuity <span class="draft">Draft</span></p>
+        <h2><a href="we_must_survive/">We Must Survive</a></h2>
+        <p class="sub">Analysing, designing, operating and proving that missions survive severe disruption</p>
+        <p class="blurb">In July 2021 a till supplier two tiers away was hit, and 800 Coop stores closed. The regional co-ops that ran their own tills stayed open. Nobody had planned it that way. This book is about planning it that way: deciding what must keep working, finding out what it really depends on, and building the fallbacks before the day you need them. It is written for whoever answers for keeping important services running, with Swedish cases from Tieto 2011 to Tietoevry 2024 and a fictional regional utility as the running example. All 24 chapters, with a tabletop exercise for each, are in a first complete draft.</p>
+        <p class="facts"><span><b>24</b> chapters in six parts</span><span><b>4</b> appendices</span><span>English &amp; <span lang="sv">svenska</span></span></p>
+        <div class="actions">
+          <span class="lang">English</span>
+          <span class="row"><a class="read" href="we_must_survive/">Read online <i>→</i></a><a class="pdf" href="we_must_survive/we-must-survive.pdf" download>PDF <i>↓</i> <small>347 pages, 9 MB</small></a></span>
+          <span class="lang" lang="sv">Svenska</span>
+          <span class="row" lang="sv"><a class="read" href="vi_maste_overleva/">Läs online <i>→</i></a><a class="pdf" href="vi_maste_overleva/vi-maste-overleva.pdf" download>PDF <i>↓</i> <small>352 sidor, 9 MB</small></a></span>
+        </div>
+      </div>
+    </li>
+
+    <li class="book">
+      <a class="stack" href="partial_failure/" aria-label="Read Partial Failure">
+        <span class="cover3d cover-pf">
+          <span class="log" aria-hidden="true">
+            <b>10:42:07.112</b> PUT seat/14C<br>
+            <b>10:42:07.612</b> <span class="warn">timeout 500 ms</span><br>
+            <b>10:42:07.613</b> written? <span class="warn">unknown</span><br>
+            <b>10:42:07.890</b> seat/14C applied
+          </span>
+          <svg class="fault" viewBox="0 0 300 46" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 30 L62 30 L74 12 L88 40 L102 8 L116 36 L128 22 L300 22" fill="none" stroke="#e5484d" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+          <span class="cover-title">Partial <span>Failure</span></span>
+          <span class="cover-sub">An introduction to distributed systems, from first principles to production</span>
+          <span class="cover-author">Daniel Öster</span>
+        </span>
+      </a>
+      <div class="book-text">
+        <p class="meta">Distributed systems</p>
+        <h2><a href="partial_failure/">Partial Failure</a></h2>
+        <p class="sub">An introduction to distributed systems, from first principles to production</p>
+        <p class="blurb">You send a request and the timeout fires. Did the write happen? <span class="squiggle">Maybe.</span> This book is about that question and everything that grows out of it. Over seventeen chapters you learn to reason about systems where the network loses messages, clocks drift apart and a server can die halfway through your request, and to build systems that keep working anyway: retries that are safe to repeat, replicas that agree with each other, and services you can change and deploy without waking anyone at three in the morning. Along the way, labs let you break your own code with simulated network partitions and overload, and watch what happens.</p>
+        <p class="facts"><span><b>17</b> chapters in four parts</span><span>Labs with hints</span><span>Annotated reading guide</span></p>
+        <div class="actions single">
+          <span class="row"><a class="read" href="partial_failure/">Read online <i>→</i></a><a class="pdf" href="partial_failure/partial-failure.pdf" download>PDF <i>↓</i> <small>309 pages, 7 MB</small></a></span>
+        </div>
+      </div>
+    </li>
+  </ol>
+
+  <footer class="colophon">
+    <span>© Daniel Öster · <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license">CC BY-NC 4.0</a></span>
+    <a class="gh" href="https://github.com/daniel-oster/books"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>github.com/daniel-oster/books</a>
+  </footer>
 </main>
 <script>
   // same localStorage key as the books, so the choice follows the reader
