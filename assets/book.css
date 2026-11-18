@@ -271,6 +271,7 @@ body.library {
   animation: rise .7s cubic-bezier(.2, .7, .2, 1) both;
 }
 .book:nth-child(2) { animation-delay: .12s; }
+.book:nth-child(3) { animation-delay: .24s; }
 .book:nth-child(even) { grid-template-columns: minmax(0, 1fr) 300px; }
 .book:nth-child(even) .stack { order: 2; }
 @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
@@ -333,6 +334,18 @@ body.library {
 .cover-pf .cover-title { font-size: 46px; margin-top: auto; }
 .cover-pf .cover-title span { display: block; color: #8eacff; }
 .cover-pf .cover-author { margin-top: 18px; }
+
+/* Who Is Calling?: deep teal, an address nobody can name and an identity that answers, one large question mark */
+.cover-wic { background: radial-gradient(120% 80% at 20% 0%, #1f4a4f, #12282d 58%, #0b181c); padding: 26px 22px 20px 28px; }
+.cover-wic .log { font: 10px/1.75 var(--font-mono); color: #8fb3b0; white-space: nowrap; }
+.cover-wic .log b { color: #eef1f6; font-weight: 500; }
+.cover-wic .log .warn { color: #f0c46c; }
+.cover-wic .log .ok { color: #7fcdc2; }
+.cover-wic .mark { position: absolute; right: 10px; top: 92px; font: 700 200px/1 var(--font-head); color: rgba(127, 205, 194, .14); pointer-events: none; }
+.cover-wic .cover-title { font-size: 44px; margin-top: auto; position: relative; }
+.cover-wic .cover-title span { display: block; color: #7fcdc2; }
+.cover-wic .cover-sub { position: relative; }
+.cover-wic .cover-author { margin-top: 18px; }
 
 /* ---- the text beside the cover ---- */
 .book-text .meta { font: 12px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0; }
