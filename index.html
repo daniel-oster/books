@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Books</title>
-<meta name="description" content="Two books by Daniel Öster on keeping software and services working when parts of them fail. Free to read online or as PDF.">
+<meta name="description" content="Three books by Daniel Öster on keeping software and services working when parts of them fail, and on deciding whom to trust. Free to read online or as PDF.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
-<link rel="stylesheet" href="assets/book.css?v=199d9f06">
+<link rel="stylesheet" href="assets/book.css?v=3b7e21c4">
 <script>
   // follow the theme chosen in the book (same origin, same localStorage key)
   try { const t = localStorage.getItem('pf-theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
@@ -20,7 +20,7 @@
   <header class="landing-head">
     <div class="kicker">Daniel Öster · Library</div>
     <h1>Books</h1>
-    <p class="lede">Two books about what happens when part of a system fails, and how to keep working when it does. <em>Free to read online or as PDF.</em></p>
+    <p class="lede">Three books about what happens when part of a system fails, how to keep working when it does, and how to decide whom to trust along the way. <em>Free to read online or as PDF.</em></p>
   </header>
 
   <ol class="shelf">
@@ -80,6 +80,32 @@
         <p class="facts"><span><b>17</b> chapters in four parts</span><span>Labs with hints</span><span>Annotated reading guide</span></p>
         <div class="actions single">
           <span class="row"><a class="read" href="partial_failure/">Read online <i>→</i></a><a class="pdf" href="partial_failure/partial-failure.pdf" download>PDF <i>↓</i> <small>309 pages, 7 MB</small></a></span>
+        </div>
+      </div>
+    </li>
+    <li class="book">
+      <a class="stack" href="who_is_calling/" aria-label="Read Who Is Calling?">
+        <span class="cover3d cover-wic">
+          <span class="log" aria-hidden="true">
+            <b>allow</b> 10.42.7.19 → db:5432<br>
+            <b>who?</b> <span class="warn">unknown</span><br>
+            <b>allow</b> team-app/orders → db<br>
+            <b>who?</b> <span class="ok">spiffe://…/b-7k2q9x</span>
+          </span>
+          <span class="mark" aria-hidden="true">?</span>
+          <span class="cover-title">Who Is <span>Calling?</span></span>
+          <span class="cover-sub">Identity, certificates, policy and networks for a zero trust internal cloud</span>
+          <span class="cover-author">Daniel Öster</span>
+        </span>
+      </a>
+      <div class="book-text">
+        <p class="meta">Zero trust &amp; identity</p>
+        <h2><a href="who_is_calling/">Who Is Calling?</a></h2>
+        <p class="sub">Identity, certificates, policy and networks for a zero trust internal cloud</p>
+        <p class="blurb">A firewall rule written in 2019 still lets one address reach the payroll database. The server it was written for is long gone, and the address now belongs to a test pod nobody connects with payroll. This book is about building platforms where such a rule cannot exist, because trust is never decided by where traffic comes from. It explains, from the beginning, what keys, certificates, TLS, workload identity with SPIFFE and SPIRE, OAuth tokens, policy engines, service meshes and overlays each prove, and what they do not, so you can read the primary sources and judge a design. A fictional agency, Granvik, and its “bubble model” run through every chapter.</p>
+        <p class="facts"><span><b>11</b> chapters in four parts</span><span>Questions with answers</span><span>Annotated reading plan</span></p>
+        <div class="actions single">
+          <span class="row"><a class="read" href="who_is_calling/">Read online <i>→</i></a><a class="pdf" href="who_is_calling/who-is-calling.pdf" download>PDF <i>↓</i> <small>110 pages, 2 MB</small></a></span>
         </div>
       </div>
     </li>

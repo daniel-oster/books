@@ -3,6 +3,7 @@
 Books by Daniel Öster, free to read in the browser or as PDF.
 
 - *Partial Failure*: distributed systems for developers.
+- *Who Is Calling?*: identity, certificates, policy and networks for a zero trust internal cloud, for engineers who design and review platforms.
 - *We Must Survive*: survivability, continuity and recovery for the people who answer for keeping important services running. Also in Swedish as *Vi måste överleva*.
 
 Start at `index.html`, or read them on the published site.
