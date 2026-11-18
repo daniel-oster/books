@@ -51,8 +51,8 @@
       <h1>Rule 4711</h1>
       <p class="chapter-sub">What an old firewall rule says about trusting addresses</p>
     </header>
-    <p>On an ordinary Tuesday, an engineer on Granvik’s platform team was asked a simple question by an auditor: who can reach the payroll database?</p>
-<p>The honest answer took two days to find. The database sat behind a firewall with about 4,200 rules. One of them, rule 4711, allowed TCP from <code>10.42.7.19</code> to the database on port 5432. It had been added in 2019 for a reporting server. That server had been retired years ago. The address had gone back into a pool, and since the move to containers it was handed out to pods. On the day of the audit it belonged to a test pod run by a team that had never heard of the payroll system. Nothing had been attacked. Nothing had broken. The rule had simply gone on saying “trust whatever is at this address” long after anybody knew what was there.</p>
+    <p>In Granvik’s yearly access review, the internal auditor asked the platform team who could reach the payroll database. It took the team two days to answer.</p>
+<p>The database sat behind a firewall with about 4,200 rules. One of them, rule 4711, allowed TCP from <code>10.42.7.19</code> to the database on port 5432. It was added in 2019 for a reporting server that has since been retired. The address went back into a pool, and after the move to containers that pool hands out addresses to pods. During the review, <code>10.42.7.19</code> belonged to a test pod run by a team with no connection to payroll. No one had attacked anything and nothing had failed, but the rule still let in whatever held that address, and nobody on the team could have said what that was.</p>
 <p>Granvik does not exist. It is a made-up Swedish public agency with about 3,000 staff, two data halls, a growing OpenShift estate, a long tail of virtual machines and physical servers, staff who log in through Entra ID, and a few systems in Azure. Everything about it is borrowed from organisations that do exist, and the story of rule 4711 is a composite of things that happen in all of them. This book follows Granvik’s platform team as they design an internal cloud where a rule like 4711 cannot be written, because no rule may mention an address at all.</p>
 <h2 id="why-what-address-based-trust-assumes">What address-based trust assumes</h2>
 <p>For decades, networks decided whom to trust by where traffic came from. That habit rests on a handful of assumptions. Each one was reasonable once. None of them holds inside a modern platform.</p>
@@ -137,7 +137,7 @@ Note · <span class="box-title">A useful way to think about it</span>
 <div class="box-label">
 Essential question
 </div>
-<p>If every address in your network changed tomorrow morning, which of your security rules would still mean what they meant today?</p>
+<p>If every address in your network were renumbered, which of your security rules would still mean what they meant today?</p>
 </aside>
 <p>Keep your answer in mind. By the end of the book you should be able to replace each of those rules with one that names an identity, and to say what has to be running for that rule to be enforced. The preface explains how the book is organised and how to read it.</p>
 
